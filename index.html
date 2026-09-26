@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Absensi - SMP Al-Miftah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <i class="fas fa-school"></i>
+      <span>SMP Al-Miftah</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active"><i class="fas fa-fingerprint"></i> Absensi</a>
+      <a href="admin.html" class="nav-link"><i class="fas fa-cog"></i> Admin Panel</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <!-- Clock Section -->
+    <section class="clock-section">
+      <div class="clock-card glass-card">
+        <div class="clock-time" id="clockTime">00:00:00</div>
+        <div class="clock-date" id="clockDate">Senin, 1 Januari 2024</div>
+        <div class="mode-badge" id="modeBadge">
+          <i class="fas fa-sign-in-alt"></i>
+          <span id="modeText">MODE MASUK</span>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card glass-card stat-hadir">
+          <div class="stat-icon"><i class="fas fa-check"></i></div>
+          <div class="stat-info">
+            <div class="stat-number" id="quickStatHadir">0</div>
+            <div class="stat-label">Hadir</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card stat-lambat">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <div class="stat-info">
+            <div class="stat-number" id="quickStatLambat">0</div>
+            <div class="stat-label">Lambat</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card stat-belum">
+          <div class="stat-icon"><i class="fas fa-user-times"></i></div>
+          <div class="stat-info">
+            <div class="stat-number" id="quickStatBelum">0</div>
+            <div class="stat-label">Belum Absen</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scanner Section -->
+    <section class="scanner-section">
+      <div class="scanner-card glass-card">
+        <div class="scanner-icon">
+          <div class="rfid-pulse"></div>
+          <i class="fas fa-wifi" id="scannerIcon"></i>
+        </div>
+        <h2 class="scanner-title">Tempelkan Kartu RFID</h2>
+        <p class="scanner-subtitle">Kartu akan terbaca otomatis</p>
+        <input type="text" id="rfidInput" class="rfid-input" autocomplete="off" autofocus placeholder="Menunggu scan kartu...">
+      </div>
+    </section>
+
+    <!-- Result Section (hidden by default, shown after scan) -->
+    <section class="result-section" id="resultSection" style="display:none;">
+      <div class="result-card glass-card" id="resultCard">
+        <div class="result-icon" id="resultIcon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="result-info">
+          <h2 class="result-name" id="resultName">-</h2>
+          <span class="result-role-badge" id="resultRole">Guru</span>
+          <span class="result-class" id="resultClass"></span>
+        </div>
+        <div class="result-message" id="resultMessage">Absensi Berhasil</div>
+        <div class="result-time" id="resultTime">07:00:00</div>
+        <div class="result-status" id="resultStatus"></div>
+      </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="activity-section">
+      <div class="section-header">
+        <h3><i class="fas fa-history"></i> Aktivitas Hari Ini</h3>
+      </div>
+      <div class="activity-list" id="activityList">
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Belum ada aktivitas hari ini</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Audio feedback -->
+  <audio id="successSound" preload="auto"><source src="" type="audio/wav"></audio>
+  <audio id="errorSound" preload="auto"><source src="" type="audio/wav"></audio>
+
+  <!-- Toast notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
