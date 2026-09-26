@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - SMP Al-Miftah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <i class="fas fa-school"></i>
+      <span>SMP Al-Miftah</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link"><i class="fas fa-fingerprint"></i> Absensi</a>
+      <a href="admin.html" class="nav-link active"><i class="fas fa-cog"></i> Admin Panel</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="dashboard"><i class="fas fa-chart-pie"></i> Dashboard</button>
+      <button class="tab-btn" data-tab="guru"><i class="fas fa-chalkboard-teacher"></i> Data Guru</button>
+      <button class="tab-btn" data-tab="siswa"><i class="fas fa-user-graduate"></i> Data Siswa</button>
+      <button class="tab-btn" data-tab="register"><i class="fas fa-user-plus"></i> Registrasi</button>
+      <button class="tab-btn" data-tab="rekap"><i class="fas fa-file-export"></i> Rekap Absensi</button>
+    </div>
+
+    <!-- Dashboard Tab -->
+    <div class="tab-pane active" id="tab-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card glass-card stat-total"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><div class="stat-number" id="statTotal">0</div><div class="stat-label">Total Terdaftar</div></div></div>
+        <div class="stat-card glass-card stat-hadir"><div class="stat-icon"><i class="fas fa-check"></i></div><div class="stat-info"><div class="stat-number" id="statHadir">0</div><div class="stat-label">Hadir Hari Ini</div></div></div>
+        <div class="stat-card glass-card stat-lambat"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-info"><div class="stat-number" id="statLambat">0</div><div class="stat-label">Terlambat</div></div></div>
+        <div class="stat-card glass-card stat-belum"><div class="stat-icon"><i class="fas fa-user-times"></i></div><div class="stat-info"><div class="stat-number" id="statBelum">0</div><div class="stat-label">Belum Absen</div></div></div>
+      </div>
+      <!-- Today's attendance table -->
+      <div class="table-card glass-card">
+        <h3>Absensi Hari Ini</h3>
+        <div class="table-responsive">
+          <table class="data-table" id="todayTable">
+            <thead><tr><th>No</th><th>Nama</th><th>Role</th><th>Kelas</th><th>Masuk</th><th>Pulang</th><th>Status</th></tr></thead>
+            <tbody id="todayBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guru Tab -->
+    <div class="tab-pane" id="tab-guru">
+      <div class="table-card glass-card">
+        <div class="table-header">
+          <h3>Data Guru</h3>
+          <input type="text" class="search-input" id="searchGuru" placeholder="Cari guru...">
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead><tr><th>No</th><th>Nama</th><th>NIP</th><th>RFID Tag</th><th>Aksi</th></tr></thead>
+            <tbody id="guruBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Siswa Tab -->
+    <div class="tab-pane" id="tab-siswa">
+      <div class="table-card glass-card">
+        <div class="table-header">
+          <h3>Data Siswa</h3>
+          <div class="filter-group">
+            <select class="form-select" id="filterKelas"><option value="">Semua Kelas</option></select>
+            <input type="text" class="search-input" id="searchSiswa" placeholder="Cari siswa...">
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead><tr><th>No</th><th>Nama</th><th>NIS</th><th>Kelas</th><th>RFID Tag</th><th>Aksi</th></tr></thead>
+            <tbody id="siswaBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register Tab -->
+    <div class="tab-pane" id="tab-register">
+      <div class="form-card glass-card">
+        <h3><i class="fas fa-user-plus"></i> Registrasi Pengguna Baru</h3>
+        <form id="registerForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <select class="form-select" id="regRole" required>
+                <option value="">Pilih Role</option>
+                <option value="guru">Guru</option>
+                <option value="siswa">Siswa</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nama Lengkap</label>
+              <input type="text" class="form-input" id="regName" required placeholder="Masukkan nama lengkap">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" id="nipGroup">
+              <label class="form-label">NIP</label>
+              <input type="text" class="form-input" id="regNip" placeholder="Masukkan NIP">
+            </div>
+            <div class="form-group" id="nisGroup" style="display:none;">
+              <label class="form-label">NIS</label>
+              <input type="text" class="form-input" id="regNis" placeholder="Masukkan NIS">
+            </div>
+            <div class="form-group" id="kelasGroup" style="display:none;">
+              <label class="form-label">Kelas</label>
+              <input type="text" class="form-input" id="regKelas" placeholder="Contoh: 7A, 8B, 9C">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">RFID Tag</label>
+            <div class="rfid-scan-group">
+              <input type="text" class="form-input" id="regRfid" required placeholder="Scan kartu RFID atau ketik manual">
+              <span class="rfid-scan-hint"><i class="fas fa-wifi"></i> Tempelkan kartu untuk scan otomatis</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Rekap Tab -->
+    <div class="tab-pane" id="tab-rekap">
+      <div class="table-card glass-card">
+        <div class="rekap-header">
+          <h3><i class="fas fa-file-export"></i> Rekap Absensi</h3>
+          <div class="rekap-filters">
+            <div class="form-group">
+              <label class="form-label">Dari Tanggal</label>
+              <input type="date" class="form-input" id="rekapFrom">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sampai Tanggal</label>
+              <input type="date" class="form-input" id="rekapTo">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <select class="form-select" id="rekapRole">
+                <option value="">Semua</option>
+                <option value="guru">Guru</option>
+                <option value="siswa">Siswa</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" id="btnLoadRekap"><i class="fas fa-search"></i> Tampilkan</button>
+            <button class="btn btn-success" id="btnExportXlsx"><i class="fas fa-file-excel"></i> Download Excel</button>
+            <button class="btn btn-info" id="btnExportGsheet"><i class="fas fa-table"></i> Buka di Google Sheets</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead><tr><th>No</th><th>Tanggal</th><th>Nama</th><th>Role</th><th>Kelas</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Status</th></tr></thead>
+            <tbody id="rekapBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal" style="display:none;">
+    <div class="modal-card glass-card">
+      <div class="modal-icon"><i class="fas fa-exclamation-triangle"></i></div>
+      <h3>Konfirmasi Hapus</h3>
+      <p id="deleteMessage">Apakah Anda yakin ingin menghapus?</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btnCancelDelete">Batal</button>
+        <button class="btn btn-danger" id="btnConfirmDelete">Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
